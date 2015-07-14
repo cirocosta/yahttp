@@ -15,3 +15,9 @@ $ make && make test
 $ ./src/main
 ```
 
+## LICENSE
+
+GPLv2
+
+See `./LICENSE`.
+

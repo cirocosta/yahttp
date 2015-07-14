@@ -1,9 +1,7 @@
+project(yahttp CXX C)
 cmake_minimum_required(VERSION 2.8)
 
-# Turn it on through: -Dtest=ON
-option(test "Include Tests." OFF)
-
-set(PROJECT_NAME yahttp-gen)
+set(PROJECT_NAME hpos)
 project(${PROJECT_NAME} C CXX)
 
 include(CheckCXXCompilerFlag)
@@ -18,21 +16,6 @@ else()
     message(STATUS "Please use a different C++ compiler.")
 endif()
 
-include_directories(${PROJECT_SOURCE_DIR})
-
-add_subdirectory(lib/yahttp)
-include_directories(${yahttp_SOURCE_DIR}/include)
-
+include_directories(${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/include)
 add_subdirectory(src/)
-include_directories(${PROJECT_SOURCE_DIR}/src)
-
-# Testing
-if (test)
-    add_subdirectory(lib/googletest)
-    enable_testing()
-    include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
-
-    # Our test source
-    add_subdirectory(tests/)
-endif(test)
 
