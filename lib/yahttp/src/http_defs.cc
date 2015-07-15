@@ -5,7 +5,10 @@
  * streams.
  */
 
-namespace yahttp {
+using namespace yahttp;
+
+static const std::string CRLF = "\r\n";
+static const std::string SP = " ";
 
 std::ostream& operator<<(std::ostream& o, const HTTPMethod& method)
 {
@@ -16,26 +19,18 @@ std::ostream& operator<<(std::ostream& o, const HTTPMethod& method)
 
 std::ostream& operator<<(std::ostream& o, const HTTPRequestStartLine& req)
 {
-  o << "type: request" << std::endl
-    << "method: " << req.method << std::endl
-    << "path: " << req.path << std::endl
-    << "version: " << req.version << std::endl;
+  o << req.method << SP
+    << req.path << SP
+    << req.version;
 
   return o;
 }
 
 std::ostream& operator<<(std::ostream& o, const HTTPResponseStartLine& res)
 {
-  o << "type: response" << std::endl
-    << "status: " << res.status_code << std::endl
-    << "reason_phrase: " << res.reason_phrase << std::endl;
-
-  return o;
-}
-
-std::ostream& operator<<(std::ostream& o, const HTTPStartLine& line)
-{
-  o << line;
+  o << res.status_code << SP
+    << res.reason_phrase << SP
+    << res.version;
 
   return o;
 }
@@ -43,35 +38,34 @@ std::ostream& operator<<(std::ostream& o, const HTTPStartLine& line)
 std::ostream& operator<<(std::ostream& o, const HTTPHeaders& headers)
 {
   for (const auto& header : headers)
-    o << header.first << ": " << header.second << std::endl;
+    o << header.first << ": " << header.second << CRLF;
 
   return o;
 }
 
 std::ostream& operator<<(std::ostream& o, const HTTPBody& body)
 {
-  o << body;
+  std::copy(body.begin(), body.end(),
+            std::ostream_iterator<char>(o, ""));
 
   return o;
 }
 
 std::ostream& operator<<(std::ostream& o, const HTTPResponseMessage& message)
 {
-  o << message.start_line << std::endl
-    << message.headers << std::endl
-    << message.body << std::endl;
+  o << message.start_line << CRLF
+    << message.headers << CRLF
+    << message.body << CRLF;
 
   return o;
 }
 
 std::ostream& operator<<(std::ostream& o, const HTTPRequestMessage& message)
 {
-  o << message.start_line << std::endl
-    << message.headers << std::endl
-    << message.body << std::endl;
+  o << message.start_line << CRLF
+    << message.headers << CRLF
+    << message.body << CRLF;
 
   return o;
 }
-
-}; // !ns http
 

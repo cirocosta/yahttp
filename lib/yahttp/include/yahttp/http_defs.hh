@@ -6,6 +6,7 @@
 #include <utility>
 #include <map>
 #include <vector>
+#include <iterator>
 
 namespace yahttp {
 
@@ -33,16 +34,15 @@ static const std::map<std::string, HTTPMethod> HTTPMethodMapping = {
 };
 
 static const std::map<HTTPMethod, std::string> HTTPMethodInverseMapping = {
-  {HTTPMethod::CONNECT, "GET"},
-  {HTTPMethod::DELETE,  "HEAD"},
-  {HTTPMethod::PUT,     "POST"},
-  {HTTPMethod::POST,    "PUT"},
-  {HTTPMethod::HEAD,    "DELETE"},
-  {HTTPMethod::GET,     "CONNECT"},
-  {HTTPMethod::TRACE,   "OPTIONS"},
-  {HTTPMethod::OPTIONS, "TRACE"},
+  {HTTPMethod::CONNECT, "CONNECT"},
+  {HTTPMethod::DELETE,  "DELETE"},
+  {HTTPMethod::PUT,     "PUT"},
+  {HTTPMethod::POST,    "POST"},
+  {HTTPMethod::HEAD,    "HEAD"},
+  {HTTPMethod::GET,     "GET"},
+  {HTTPMethod::TRACE,   "TRACE"},
+  {HTTPMethod::OPTIONS, "OPTIONS"},
 };
-
 
 struct HTTPRequestStartLine
 {
@@ -61,22 +61,56 @@ struct HTTPResponseStartLine
 typedef std::map<std::string, std::string> HTTPHeaders;
 typedef std::vector<char> HTTPBody;
 
-struct HTTPResponseMessage
+
+class HTTPMessage
+{
+protected:
+  HTTPMessage(HTTPHeaders h, HTTPBody b)
+    : headers(h), body(b)
+  {}
+public:
+  const HTTPHeaders headers;
+  const HTTPBody body;
+};
+
+struct HTTPResponseMessage : public HTTPMessage
 {
   const HTTPResponseStartLine start_line;
-  const HTTPHeaders headers;
-  const HTTPBody body;
+
+  HTTPResponseMessage (HTTPResponseStartLine sl, HTTPHeaders h,
+                       HTTPBody b)
+    : HTTPMessage(h, b), start_line(sl)
+  {}
 };
 
-struct HTTPRequestMessage
+struct HTTPRequestMessage : public HTTPMessage
 {
   const HTTPRequestStartLine start_line;
-  const HTTPHeaders headers;
-  const HTTPBody body;
+
+  HTTPRequestMessage (HTTPRequestStartLine sl, HTTPHeaders h,
+                       HTTPBody b)
+    : HTTPMessage(h, b), start_line(sl)
+  {}
 };
 
-
 }; // !ns http
+
+using namespace yahttp;
+
+std::ostream& operator<<(std::ostream& o,
+                         const yahttp::HTTPMethod& method);
+std::ostream& operator<<(std::ostream& o,
+                         const yahttp::HTTPRequestStartLine& req);
+std::ostream& operator<<(std::ostream& o,
+                         const yahttp::HTTPResponseStartLine& res);
+std::ostream& operator<<(std::ostream& o,
+                         const yahttp::HTTPHeaders& headers);
+std::ostream& operator<<(std::ostream& o,
+                         const yahttp::HTTPBody& body);
+std::ostream& operator<<(std::ostream& o,
+                         const yahttp::HTTPResponseMessage& message);
+std::ostream& operator<<(std::ostream& o,
+                         const yahttp::HTTPRequestMessage& message);
 
 #endif // ! HTTP_DEFS_HH
 
