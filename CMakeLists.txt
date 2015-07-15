@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 2.8)
 option(test "Include Tests." OFF)
 
 set(PROJECT_NAME yahttp-gen)
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
+
 project(${PROJECT_NAME} C CXX)
 
 include(CheckCXXCompilerFlag)

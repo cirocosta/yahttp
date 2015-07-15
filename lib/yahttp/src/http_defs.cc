@@ -7,7 +7,7 @@
 
 namespace yahttp {
 
-std::ostream& operator<<(std::ostream& o, const HTTPMethod method)
+std::ostream& operator<<(std::ostream& o, const HTTPMethod& method)
 {
   o << HTTPMethodInverseMapping.at(method);
 
@@ -17,6 +17,7 @@ std::ostream& operator<<(std::ostream& o, const HTTPMethod method)
 std::ostream& operator<<(std::ostream& o, const HTTPRequestStartLine& req)
 {
   o << "type: request" << std::endl
+    << "method: " << req.method << std::endl
     << "path: " << req.path << std::endl
     << "version: " << req.version << std::endl;
 
@@ -26,7 +27,6 @@ std::ostream& operator<<(std::ostream& o, const HTTPRequestStartLine& req)
 std::ostream& operator<<(std::ostream& o, const HTTPResponseStartLine& res)
 {
   o << "type: response" << std::endl
-    << "method: " << res.method << std::endl
     << "status: " << res.status_code << std::endl
     << "reason_phrase: " << res.reason_phrase << std::endl;
 
@@ -55,7 +55,16 @@ std::ostream& operator<<(std::ostream& o, const HTTPBody& body)
   return o;
 }
 
-std::ostream& operator<<(std::ostream& o, const HTTPMessage& message)
+std::ostream& operator<<(std::ostream& o, const HTTPResponseMessage& message)
+{
+  o << message.start_line << std::endl
+    << message.headers << std::endl
+    << message.body << std::endl;
+
+  return o;
+}
+
+std::ostream& operator<<(std::ostream& o, const HTTPRequestMessage& message)
 {
   o << message.start_line << std::endl
     << message.headers << std::endl

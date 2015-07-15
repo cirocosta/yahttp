@@ -43,32 +43,38 @@ static const std::map<HTTPMethod, std::string> HTTPMethodInverseMapping = {
   {HTTPMethod::OPTIONS, "TRACE"},
 };
 
-struct HTTPStartLine
+
+struct HTTPRequestStartLine
 {
-  HTTPMessageType type;
-  std::string version;
+  const HTTPMethod method;
+  const std::string path;
+  const std::string version;
 };
 
-struct HTTPRequestStartLine : public HTTPStartLine
+struct HTTPResponseStartLine
 {
-  std::string path;
-};
-
-struct HTTPResponseStartLine : public HTTPStartLine
-{
-  HTTPMethod method;
-  unsigned status_code;
-  std::string reason_phrase;
+  const std::string version;
+  const unsigned status_code;
+  const std::string reason_phrase;
 };
 
 typedef std::map<std::string, std::string> HTTPHeaders;
 typedef std::vector<char> HTTPBody;
 
-struct HTTPMessage {
-  const HTTPStartLine start_line;
+struct HTTPResponseMessage
+{
+  const HTTPResponseStartLine start_line;
   const HTTPHeaders headers;
   const HTTPBody body;
 };
+
+struct HTTPRequestMessage
+{
+  const HTTPRequestStartLine start_line;
+  const HTTPHeaders headers;
+  const HTTPBody body;
+};
+
 
 }; // !ns http
 
