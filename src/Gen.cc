@@ -1,4 +1,4 @@
-#include "Gen.hh"
+#include "yahttp/Gen.hh"
 
 // We don't really need this! We just need to support the
 // ostream stuff for those structs in a proper way!
@@ -7,7 +7,7 @@
 
 namespace yahttp {
 
-  // TODO go with std::snprintf c++11 solution 
+  // TODO go with std::snprintf c++11 solution
   std::string Gen::gen_request (const HTTPRequestMessage& message)
   {
     std::ostringstream res;

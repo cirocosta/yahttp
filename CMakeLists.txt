@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 2.8)
 
-# Turn it on through: -Dtest=ON
-option(test "Include Tests." OFF)
+# Turn it off through: -Dtest=OFF
+option(test "Include Tests." ON)
 
 set(PROJECT_NAME yahttp-gen)
-set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-
 project(${PROJECT_NAME} C CXX)
+set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
 
 include(CheckCXXCompilerFlag)
 CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
@@ -20,13 +19,10 @@ else()
     message(STATUS "Please use a different C++ compiler.")
 endif()
 
-include_directories(${PROJECT_SOURCE_DIR})
-
-add_subdirectory(lib/yahttp)
-include_directories(${yahttp_SOURCE_DIR}/include)
+include_directories(${PROJECT_SOURCE_DIR}/src)
+include_directories(${PROJECT_SOURCE_DIR}/includes)
 
 add_subdirectory(src/)
-include_directories(${PROJECT_SOURCE_DIR}/src)
 
 # Testing
 if (test)

@@ -1,5 +1,5 @@
-#ifndef HTTP_DEFS_HH
-#define HTTP_DEFS_HH
+#ifndef YAHTTP__HTTP_HH
+#define YAHTTP__HTTP_HH
 
 #include <string>
 #include <iostream>
@@ -64,13 +64,13 @@ typedef std::vector<char> HTTPBody;
 
 class HTTPMessage
 {
+public:
+  const HTTPHeaders headers;
+  const HTTPBody body;
 protected:
   HTTPMessage(HTTPHeaders h, HTTPBody b)
     : headers(h), body(b)
   {}
-public:
-  const HTTPHeaders headers;
-  const HTTPBody body;
 };
 
 struct HTTPResponseMessage : public HTTPMessage
@@ -112,5 +112,5 @@ std::ostream& operator<<(std::ostream& o,
 std::ostream& operator<<(std::ostream& o,
                          const yahttp::HTTPRequestMessage& message);
 
-#endif // ! HTTP_DEFS_HH
+#endif // ! YAHTTP__HTTP_HH
 

@@ -1,4 +1,4 @@
-#include "yahttp/http_defs.hh"
+#include "yahttp/HTTP.hh"
 
 /**
  * For debugging purposes, properly defines output
@@ -28,9 +28,9 @@ std::ostream& operator<<(std::ostream& o, const HTTPRequestStartLine& req)
 
 std::ostream& operator<<(std::ostream& o, const HTTPResponseStartLine& res)
 {
-  o << res.status_code << SP
-    << res.reason_phrase << SP
-    << res.version;
+  o << res.version << SP
+    << res.status_code << SP
+    << res.reason_phrase;
 
   return o;
 }

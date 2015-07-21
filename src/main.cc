@@ -1,5 +1,5 @@
 #include <iostream>
-#include "yahttp/http_defs.hh"
+#include "yahttp/HTTP.hh"
 
 using namespace yahttp;
 

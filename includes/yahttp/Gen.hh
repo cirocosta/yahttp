@@ -1,7 +1,7 @@
 #ifndef HTTP_GEN_HH
-#define HTTP_GEN_HH 
+#define HTTP_GEN_HH
 
-#include "yahttp/http_defs.hh"
+#include "yahttp/HTTP.hh"
 #include <sstream>
 
 namespace yahttp {

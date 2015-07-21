@@ -7,3 +7,5 @@ install_manifest.txt
 build/
 
 *.pyc
+.ycm_extra_conf.py
+
